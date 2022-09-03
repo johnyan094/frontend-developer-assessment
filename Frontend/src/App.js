@@ -113,7 +113,7 @@ const App = () => {
       handleClear()
     } catch (error) {
       console.error(error)
-      alertErrorMessage(error.response.data)
+      alertErrorMessage(error?.response?.data)
     }
   }
 
@@ -125,7 +125,7 @@ const App = () => {
     try {
       var newTodoItem = await todoService.MarkItemAsComplete(item.id)
       var newItems = items.map((item) => {
-        if (item.id == newTodoItem.id) {
+        if (item.id === newTodoItem.id) {
           return newTodoItem
         }
         return item
