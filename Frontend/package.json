@@ -6,7 +6,6 @@
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3",
     "axios": "^0.22.0",
     "bootstrap": "^5.1.1",
     "cross-env": "^7.0.3",
@@ -42,6 +41,8 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/dom": "^8.17.1",
+    "@testing-library/user-event": "^12.8.3",
     "prettier": "2.4.1"
   }
 }
