@@ -37,6 +37,8 @@ const update = async (
     return null;
   }
 
+  todoItemUpdate = { ...existingtodoItem, isCompleted: true };
+
   todoItems[id] = { id, ...todoItemUpdate };
 
   return todoItems[id];

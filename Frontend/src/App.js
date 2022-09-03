@@ -1,15 +1,16 @@
 import './App.css'
 import { Image, Alert, Button, Container, Row, Col, Form, Table, Stack } from 'react-bootstrap'
-import React, { useState, useEffect } from 'react'
-
-const axios = require('axios')
+import React, { useState, useEffect, useContext } from 'react'
+import * as todoService from './services/TodoService'
+import { AlertContext } from './components/Alert'
 
 const App = () => {
   const [description, setDescription] = useState('')
   const [items, setItems] = useState([])
+  const { alertErrorMessage } = useContext(AlertContext)
 
   useEffect(() => {
-    // todo
+    getItems()
   }, [])
 
   const renderAddTodoItemContent = () => {
@@ -66,11 +67,19 @@ const App = () => {
               <tr key={item.id}>
                 <td>{item.id}</td>
                 <td>{item.description}</td>
-                <td>
-                  <Button variant="warning" size="sm" onClick={() => handleMarkAsComplete(item)}>
-                    Mark as completed
-                  </Button>
-                </td>
+                {item.isCompleted ? (
+                  <td>
+                    <Button variant="danger" size="sm" disabled>
+                      Completed
+                    </Button>
+                  </td>
+                ) : (
+                  <td>
+                    <Button variant="warning" size="sm" onClick={() => handleMarkAsComplete(item)}>
+                      Mark as completed
+                    </Button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
@@ -80,12 +89,14 @@ const App = () => {
   }
 
   const handleDescriptionChange = (event) => {
-    // todo
+    var input = event.target.value
+    setDescription(input)
   }
 
   async function getItems() {
     try {
-      alert('todo')
+      var items = await todoService.GetTodoItems()
+      setItems(items)
     } catch (error) {
       console.error(error)
     }
@@ -93,9 +104,16 @@ const App = () => {
 
   async function handleAdd() {
     try {
-      alert('todo')
+      var todoItem = {
+        description: description,
+      }
+      var newTodoItem = await todoService.AddTodoItem(todoItem)
+
+      setItems([...items, newTodoItem])
+      handleClear()
     } catch (error) {
       console.error(error)
+      alertErrorMessage(error.response.data)
     }
   }
 
@@ -105,7 +123,15 @@ const App = () => {
 
   async function handleMarkAsComplete(item) {
     try {
-      alert('todo')
+      var newTodoItem = await todoService.MarkItemAsComplete(item.id)
+      var newItems = items.map((item) => {
+        if (item.id == newTodoItem.id) {
+          return newTodoItem
+        }
+        return item
+      })
+
+      setItems(newItems)
     } catch (error) {
       console.error(error)
     }
