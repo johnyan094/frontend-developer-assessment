@@ -2,7 +2,7 @@ import './App.css'
 import { Image, Alert, Button, Container, Row, Col, Form, Table, Stack } from 'react-bootstrap'
 import React, { useState, useEffect, useContext } from 'react'
 import * as todoService from './services/TodoService'
-import { AlertContext } from './components/Alert'
+import { AlertContext } from './components/alert'
 
 const App = () => {
   const [description, setDescription] = useState('')
